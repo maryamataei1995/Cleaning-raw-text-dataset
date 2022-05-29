@@ -1,0 +1,27 @@
+import re
+import csv  
+    
+lines_seen = []
+with open('Raw_Skills_Dataset.csv') as Raw_Dataset, open('ouput.csv','a') as out_file:
+    file = csv.reader(Raw_Dataset)    
+    for row in file:
+        s=str(row)
+        if s.title() not in lines_seen: # removing duplicates
+
+            #Case Normalization
+            text1 = s.title()
+
+            #remove all tokens that are not alphabetic
+            text2=re.sub("[^-9A-Za-z ]", "" , text1)
+
+            #Removing extra spaces
+            text3 = re.sub("\s+"," ", text2)
+            #Removing first spaces
+            text3=text3.strip()
+
+            updated_dataset= csv.writer(out_file, lineterminator='\n')
+            updated_dataset.writerow([text3])
+            
+            lines_seen.append(text1)
+    
+    
